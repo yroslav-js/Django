@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{{ author }} profile{% endblock %}
+{% block content %}
+<div>
+    <h1 class="title">All {{ author }}'s posts</h1>
+    <div class="profile-container">
+        <p class="text">Posts {{ posts.count }}</p>
+        <p class="text">Followers {{ followers_count }}</p>
+        <p class="text">Following {{ following_count }}</p>
+        {% if user != author %}
+            {% if following %}
+                <a class="link-button" href="{% url 'travel_posts:profile_unfollow' author.username %}">Unfollow</a>
+            {% else %}
+                <a class="link-button" href="{% url 'travel_posts:profile_follow' author.username %}">Follow</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="cards-container">
+        {% for post in page_posts %}
+        {% include 'includes/post_card.html' %}
+        {% endfor %}
+        {% include 'includes/paginator.html' %}
+    </div>
+</div>
+{% endblock %}

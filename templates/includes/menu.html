@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+<div class="overlay"></div>
+<nav class="sidebar-menu">
+
+    <ul class="sidebar-menu__items">
+        <li class="sidebar-menu__item">
+            <a class="sidebar-menu__link" href="{% url 'travel_posts:post_create' %}">Create post</a>
+        </li>
+        <li class="sidebar-menu__item">
+            <a class="sidebar-menu__link" href="{% url 'users:password_change' %}">change password</a>
+        </li>
+        <li class="sidebar-menu__item">
+            <a class="sidebar-menu__link" href="{% url 'users:logout' %}">logout</a>
+        </li>
+    </ul>
+
+</nav>
+{% endif %}

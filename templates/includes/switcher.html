@@ -1,0 +1,22 @@
+{% if user.is_authenticated %}
+{% with request.resolver_match.view_name as view_name %}
+    <ul class="switcher__items">
+      <li class="switcher__item">
+          <a
+                  class="switcher__link {% if view_name == 'travel_posts:main' %}switcher__link_active{% endif %}"
+                  href="{% url 'travel_posts:main' %}"
+          >
+            All
+          </a>
+      </li>
+      <li class="switcher__item">
+          <a
+                  class="switcher__link {% if view_name == 'travel_posts:follow_index' %}switcher__link_active{% endif %}"
+                  href="{% url 'travel_posts:follow_index' %}"
+          >
+            Favorites
+          </a>
+      </li>
+    </ul>
+{% endwith %}
+{% endif %}

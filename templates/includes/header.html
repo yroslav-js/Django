@@ -1,0 +1,21 @@
+<header class="header">
+
+    <div class="logo">
+        <a class="logo__link" href="{% url 'travel_posts:main' %}">Travel Blog</a>
+    </div>
+
+    <div class="menu__container">
+
+        <div class="user">
+            {% if user.is_authenticated %}
+                <a class="user__link" href="{% url 'travel_posts:profile' user.username %}">{{ user }}</a>
+            {% else %}
+                <a class="user__link" href="{% url 'users:login' %}">login</a>
+                <a class="user__link" href="{% url 'users:signup' %}">signup</a>
+            {% endif %}
+        </div>
+
+        {% include 'includes/nav_header.html' %}
+
+    </div>
+</header>

@@ -1,0 +1,57 @@
+<!-- comments adding form -->
+{% load user_filters %}
+<div class="comments-container">
+    {% if user.is_authenticated %}
+    <div class="form-container">
+        <form
+                class="form"
+                method="post"
+                action="{% url 'travel_posts:add_comment' post.pk %}"
+        >
+            {% csrf_token %}
+
+            {% for field in form %}
+            <fieldset class="form__input-container"
+                      {% if field.field.required %}
+                      aria-required="true"
+                      {% else %}
+                      aria-required="false"
+                      {% endif %}
+            >
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                    <span>*</span>
+                    {% endif %}
+                </label>
+
+                {{ field|addclass:'form__input' }}
+                {% if field.help_text %}
+                <small id="{{ field.id_for_label }}-help">
+                    {{ field.help_text|safe }}
+                </small>
+                {% endif %}
+
+            </fieldset>
+            {% endfor %}
+            <button type="submit" class="form__button">Send</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- comments list -->
+    <h5 class="comment__title">Comments:</h5>
+    {% if comments.count > 0 %}
+    {% for item in comments %}
+    <div class="comment">
+        <a class="comment__author" href="{% url 'travel_posts:profile' item.author.username %}"
+           name="comment_{{ item.id }}">
+            {{ item.author.username }}:
+        </a>
+        <p class="comment__text">{{ item.text | linebreaksbr }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+        <p class="comment__text">There are no comments, yet...</p>
+    {% endif %}
+</div>

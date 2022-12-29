@@ -1,0 +1,9 @@
+asgiref==3.5.2
+coverage==6.4.1
+Django==4.0.4
+django-crum==0.7.9
+Pillow==9.1.1
+psycopg2-binary
+python-dotenv==0.20.0
+sorl-thumbnail==12.8.0
+sqlparse==0.4.2

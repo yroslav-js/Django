@@ -1,0 +1,19 @@
+{% if user.is_authenticated %}
+<nav class="menu">
+
+    <ul class="menu__items">
+        <li class="menu__item">
+            <a class="menu__link" href="{% url 'travel_posts:post_create' %}">Create post</a>
+        </li>
+        <li class="menu__item">
+            <a class="menu__link" href="{% url 'users:password_change' %}">change password</a>
+        </li>
+        <li class="menu__item">
+            <a class="menu__link" href="{% url 'users:logout' %}">logout</a>
+        </li>
+    </ul>
+    <input id="menu__toggle" type="checkbox" />
+    <div class="menu__button"></div>
+
+</nav>
+{% endif %}

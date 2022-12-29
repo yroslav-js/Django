@@ -1,0 +1,77 @@
+{% with request.resolver_match.view_name as view_name %}
+<article class="post-card {% if view_name == 'travel_posts:post_detail' %}post-card_detail{% endif %}">
+    {% load static %}
+
+    <ul class="post-card__info">
+        <li class="post-card__info-item">
+            Author: <a href="{% url 'travel_posts:profile' post.author.username %}">{{ post.author }}</a>
+        </li>
+        <li class="post-card__info-item">
+            Date: {{ post.pub_date|date:"d.m.Y" }}
+        </li>
+    </ul>
+
+    {% if view_name != 'travel_posts:post_detail' and post.pk %}
+    <a href="{% url 'travel_posts:post_detail' post.pk %}" class="post-card__img-link">
+        <p class="post-card__text">{{ post.text }}</p>
+    </a>
+    {% else %}
+        <p class="post-card__text post-card__text_detail">{{ post.text }}</p>
+    {% endif %}
+
+    {% if view_name != 'travel_posts:country_posts' and post.country %}
+    <a href="{% url 'travel_posts:country_posts' post.country.slug %}" class="post-card__link">See all {{ post.country.title }} posts</a>
+    {% endif %}
+
+    {% if view_name != 'travel_posts:post_detail' and post.pk %}
+        <a href="{% url 'travel_posts:post_detail' post.pk %}" class="post-card__img-link">
+        {% load thumbnail %}
+        {% thumbnail post.image "1440x960" upscale=False as im %}
+            <img class="post-card__image" src="{{ im.url }}">
+        {% endthumbnail %}
+        </a>
+    {% else %}
+        {% load thumbnail %}
+        {% thumbnail post.image "1440x960" upscale=False as im %}
+            <img class="post-card__image post-card__image_detail" src="{{ im.url }}">
+        {% endthumbnail %}
+    {% endif %}
+
+    <div class="post-card__handlers-container {% if view_name == 'travel_posts:post_detail' %}post-card__handlers-container_detail{% endif %}">
+        {% if user.is_authenticated and post.already_like %}
+            <a href="{% url 'travel_posts:post_dislike' post.pk %}" class="post-card__img-link">
+                <img src="{% static 'img/heart_fill.png' %}" style="display: inline-block; width: 40px; height: 40px" alt="Dislike">
+                <p class="post-card__counter post-card__counter_like">{{ post.likes.count }}</p>
+            </a>
+        {% else %}
+            <a href="{% url 'travel_posts:post_like' post.pk %}" class="post-card__img-link">
+                <img src="{% static 'img/heart_empty.png' %}" alt="Like" class="post-card__icon">
+                <p class="post-card__counter post-card__counter_like">{{ post.likes.count }}</p>
+            </a>
+        {% endif %}
+
+        <a href="{% url 'travel_posts:post_detail' post.pk %}" class="post-card__img-link">
+        {% if post.comments_count > 0 %}
+            <img src="{% static 'img/comments_fill.png' %}" alt="Post has a comments" class="post-card__icon">
+        {% else %}
+            <img src="{% static 'img/comments_empty.png' %}" alt="Post doesn't have a comments" class="post-card__icon">
+        {% endif %}
+            <p class="post-card__counter post-card__counter_comment">{{ post.comments_count }}</p>
+        </a>
+
+        {% if user.is_authenticated and user == post.author %}
+            <a href="{% url 'travel_posts:post_edit' post.pk %}" class="post-card__img-link">
+                <img src="{% static 'img/edit.png' %}" alt="Edit" class="post-card__icon">
+            </a>
+        {% endif %}
+
+        {% if view_name != 'travel_posts:post_detail' and post.pk %}
+            <a href="{% url 'travel_posts:post_detail' post.pk %}" class="post-card__img-link">
+                <img src="{% static 'img/details.png' %}" alt="Post details" class="post-card__icon">
+            </a>
+        {% endif %}
+    </div>
+
+
+</article>
+{% endwith %}

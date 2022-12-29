@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Posts about {{ country.title }} {% endblock %}
+{% block content %}
+    <h1 class="title">Posts about {{ country.title }}</h1>
+    <div class="cards-container">
+    {% for post in page_posts %}
+        {% include 'includes/post_card.html' %}
+    {% endfor %}
+    </div>
+    {% include 'includes/paginator.html' %}
+{% endblock %}
